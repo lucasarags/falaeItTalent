@@ -28,3 +28,5 @@ production:
   database: falae
   username: <%= ENV["DB_USER"] %>
   password: <%= ENV["DB_PASSWORD"] %>
+  host: <%= ENV["DB_HOST"] %>
+  socket: <%= ENV["DB_SOCKET"] %>

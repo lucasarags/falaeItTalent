@@ -96,6 +96,9 @@ end
 
 group :production do
   gem 'mysql2', '~>0.5'
+
+  # Adicione esta linha para o pacote dotenv
+  gem 'dotenv-rails', require: 'dotenv/load'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

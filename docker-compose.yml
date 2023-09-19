@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.puma  # Nome do Dockerfile para o serviço web
+    container_name: Puma
+    ports:
+      - "3000:3000"  # Porta mapeada para o serviço web
+    depends_on:
+      - db  # Dependência do serviço web para o serviço de banco de dados
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx  # Nome do Dockerfile para o serviço Nginx
+    container_name: Nginx
+    ports:
+      - "80:80"  # Porta mapeada para o serviço Nginx
+    depends_on:
+      - web
+
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.mysql  # Nome do Dockerfile para o serviço Mysql
+    container_name: MySQL
+    ports:
+      - "3306:3306"  # Porta mapeada para o serviço MySQL
+
+  # Outros serviços, se houver
+

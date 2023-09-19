@@ -1,0 +1,14 @@
+# Use uma imagem base do Nginx
+FROM nginx:1.24.0
+
+# Copie o arquivo de configuração do Nginx para o contêiner
+COPY scripts/nginx/falae.conf.erb /etc/nginx/sites-enabled/falae.conf.erb
+
+# Copie os arquivos estáticos da aplicação para o diretório raiz do Nginx
+COPY public/ /var/www/html/public/
+
+# Exponha a porta 80 para acessar o Nginx
+EXPOSE 80
+
+# Comando para iniciar o servidor Nginx
+CMD ["nginx", "-g", "daemon off;"]

@@ -1,0 +1,31 @@
+# Use uma imagem base do Ruby
+FROM ruby:3.0.6
+
+# Copie o arquivo de script para o contêiner
+COPY install_dependencies.sh /install_dependencies.sh
+
+# Torne o arquivo de script executável e execute-o
+RUN chmod +x /install_dependencies.sh && /install_dependencies.sh
+
+# Defina o ambiente para produção
+ENV RAILS_ENV=production
+# Defina a variável de ambiente SENDGRID_APIKEY no Dockerfile
+ENV SENDGRID_APIKEY=default-api-key
+
+# Configure o diretório de trabalho no contêiner
+WORKDIR /app
+
+# Copie o código fonte da aplicação para o contêiner
+COPY . /app
+
+# Instale as dependências do Ruby
+RUN gem install bundler && bundle install
+
+# Crie o diretório tmp/pids
+RUN mkdir -p tmp/pids
+
+# Defina a variável de ambiente FALAE_IMAGES_PATH para o local de armazenamento de imagens
+ENV FALAE_IMAGES_PATH=/app/storage
+
+# Comando para iniciar o servidor Puma
+CMD  bundle exec rake db:migrate && bundle exec puma -C config/puma.rb
