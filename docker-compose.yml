@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    networks:
+      - falae-net
+    env_file:
+      - ./.env
+
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: falae@pass
+      MYSQL_DATABASE: falae
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - falae-net
+
+networks:
+  falae-net:
+
+volumes:
+  mysql-data:
