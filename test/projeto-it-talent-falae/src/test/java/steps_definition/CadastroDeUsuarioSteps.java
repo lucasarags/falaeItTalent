@@ -36,7 +36,8 @@ public class CadastroDeUsuarioSteps  extends BaseSteps {
     }
 
     @Quando("o usuario selecionar o idioma {string}")
-    public void o_usuario_selecionar_o_idioma(String string) {
+    public void o_usuario_selecionar_o_idioma(String idioma) {
+        page.selecionarIdioma(idioma);
         screenshot();
     }
 
@@ -89,5 +90,62 @@ public class CadastroDeUsuarioSteps  extends BaseSteps {
     }
 
 
+    @Quando("o usuario não preencher o campo email")
+    public void o_usuario_não_preencher_o_campo_email() {
+        page.escreverEmail("");
+    }
+    @Quando("o usuario não preencher o campo confirmar email")
+    public void o_usuario_não_preencher_o_campo_confirmar_email() {
+       page.escreverCofirmEmail("");
+    }
+
+    @Então("o sistema exibe uma mensagem de erro: {string} {string}")
+    public void o_sistema_exibe_uma_mensagem_de_erro(String string, String string2) {
+        List<String> retornoMsg = new ArrayList<>();
+        retornoMsg.add(string);
+        retornoMsg.add(string2);
+        Assert.assertEquals(page.msgsDeErros(), retornoMsg);
+    }
+
+    @Quando("o usuario preencher o campo email com um email invalido")
+    public void o_usuario_preencher_o_campo_email_com_um_email_invalido() {
+       page.escreverEmail("teste");
+    }
+    @Quando("o usuario preencher o campo confirmar email com um email invalido")
+    public void o_usuario_preencher_o_campo_confirmar_email_com_um_email_invalido() {
+       page.escreverCofirmEmail("teste");
+    }
+
+    @Quando("o usuario não preencher o campo senha")
+    public void o_usuario_não_preencher_o_campo_senha() {
+        page.escreverSenha("");
+    }
+    @Quando("o usuario não preencher o campo confirmar senha")
+    public void o_usuario_não_preencher_o_campo_confirmar_senha() {
+       page.escreverConfirmSenha("");
+    }
+
+    @Quando("o usuario preencher o campo senha com menos de {int} caracteres")
+    public void o_usuario_preencher_o_campo_senha_com_menos_de_caracteres(Integer int1) {
+       page.escreverSenha("12345");
+    }
+    @Quando("o usuario preencher o campo confirmar senha com menos de {int} caracteres")
+    public void o_usuario_preencher_o_campo_confirmar_senha_com_menos_de_caracteres(Integer int1) {
+       page.escreverConfirmSenha("12345");
+    }
+
+    @Quando("o usuario preencher o campo senha com {int} mais de caracteres")
+    public void o_usuario_preencher_o_campo_senha_com_mais_de_caracteres(Integer int1) {
+        page.escreverSenha("1234567");
+    }
+    @Quando("o usuario preencher o campo confirmar senha com mais de {int} caracteres")
+    public void o_usuario_preencher_o_campo_confirmar_senha_com_mais_de_caracteres(Integer int1) {
+        page.escreverConfirmSenha("1234567");
+    }
+
+    @Quando("o usuario preencher o campo confirmar invalido")
+    public void o_usuario_preencher_o_campo_confirmar_invalido() {
+        page.escreverConfirmSenha("1234567");
+    }
 
 }

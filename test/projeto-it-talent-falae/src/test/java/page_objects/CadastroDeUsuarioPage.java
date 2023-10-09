@@ -20,6 +20,8 @@ public class CadastroDeUsuarioPage extends BasePage {
 
     private final By MensagemdeErros = By.xpath("//div[@class='error-wrapper']");
 
+    private final By idiomaSelecionado = By.id("user_locale");
+
     public void clicarCadastrar(String link){
         clicar(By.linkText(link));
     }
@@ -57,6 +59,14 @@ public class CadastroDeUsuarioPage extends BasePage {
 
     public String msgErro(){
         return posicaoTexto(obterValorPorTexto(MensagemdeErros), "\n", 1);
+    }
+
+    public void selecionarIdioma(String idioma){
+        selecionarCombo(idiomaSelecionado, idioma);
+    }
+
+    public List<String> msgsDeErros(){
+        return posicoesListaDeTexto(obterValorPorTexto(MensagemdeErros), "\n", 1, 2);
     }
 
 }

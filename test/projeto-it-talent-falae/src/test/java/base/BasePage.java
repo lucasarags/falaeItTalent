@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -83,6 +84,16 @@ public class BasePage extends DriverFactory {
         List<String> nomes = Arrays.asList(texto.split(separacao));
         String primeiroNome = nomes.get(posicao);
         return primeiroNome;
+    }
+
+    public List<String> posicoesListaDeTexto(String texto1, String separacao, int posicao1, int posicao2){
+        List<String> nomes = Arrays.asList(texto1.split(separacao));
+        String primeiroTexto = nomes.get(posicao1);
+        String segundoTexto = nomes.get(posicao2);
+        List<String> retorno = new ArrayList<>();
+        retorno.add(primeiroTexto);
+        retorno.add(segundoTexto);
+        return  retorno;
     }
     public String posicaoTextoStringEspecifica(String texto, String separacao, int posicao, int posicaoString){
 
