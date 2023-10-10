@@ -156,4 +156,18 @@ Funcionalidade: Cadastro de usuario
       E o usuario clicar no botao "Criar"
       Então o sistema exibe uma mensagem de erro: "Confirmar senha não é igual a Senha"
 
+  @cenario_13
+  Cenario: 13 - Cadastro de usuário com email já em uso
+      Dado que o usuario esteja na pagina sobre do site FALAE
+      E o usuario clicar no link "Cadastrar"
+      Quando o usuario preencher o campo nome
+      E o usuario preencher o campo sobrenome
+      E o usuario selecionar o idioma "Português"
+      E o usuario preencher o campo email ja em uso
+      E o usuario preencher o campo confirmar email ja em uso
+      E o usuario preencher o campo senha
+      E o usuario preencher o campo confirmar senha
+      E o usuario clicar no botao "Criar"
+      Então o sistema exibe uma mensagem de erro: "Email já está em uso"
+
 

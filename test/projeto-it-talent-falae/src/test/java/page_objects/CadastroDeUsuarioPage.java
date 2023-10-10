@@ -36,6 +36,7 @@ public class CadastroDeUsuarioPage extends BasePage {
     }
 
     public void escreverEmail(String email){
+        waitElementVisible(emailLocator,2);
         escreve(emailLocator, email);
     }
     public void escreverCofirmEmail(String confirmarEmail){

@@ -148,4 +148,13 @@ public class CadastroDeUsuarioSteps  extends BaseSteps {
         page.escreverConfirmSenha("1234567");
     }
 
+    @Quando("o usuario preencher o campo email ja em uso")
+    public void o_usuario_preencher_o_campo_email_ja_em_uso() {
+      page.escreverEmail("testesfalae@gmail.com");
+    }
+    @Quando("o usuario preencher o campo confirmar email ja em uso")
+    public void o_usuario_preencher_o_campo_confirmar_email_ja_em_uso() {
+       page.escreverCofirmEmail("testesfalae@gmail.com");
+    }
+
 }
