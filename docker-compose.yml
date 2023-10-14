@@ -5,13 +5,26 @@ services:
     build: .
     depends_on:
       - db
-    ports:
-      - 3000:3000
+    # ports:
+    #   - 3000:3000
     restart: unless-stopped
     networks:
       - falae-net
     env_file:
       - ./.env
+
+  proxy:
+    depends_on:
+      - app
+    restart: unless-stopped
+    container_name: proxy_falae
+    build:
+      context: .docker/nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - falae-net
 
   db:
     image: mysql:8
@@ -20,8 +33,8 @@ services:
       MYSQL_DATABASE: falae
     volumes:
       - mysql-data:/var/lib/mysql
-    ports:
-      - 3306:3306
+    # ports:
+    #   - 3306:3306
     networks:
       - falae-net
 
