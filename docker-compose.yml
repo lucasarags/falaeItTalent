@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   app:
-    build: .
+    image: guilherme2041/falae-app
     depends_on:
       - db
     restart: unless-stopped
@@ -16,9 +16,7 @@ services:
       - app
     restart: unless-stopped
     container_name: proxy_falae
-    build:
-      context: .docker/nginx
-      dockerfile: Dockerfile
+    image: guilherme2041/falae-nginx
     ports:
       - "80:80"
     networks:
