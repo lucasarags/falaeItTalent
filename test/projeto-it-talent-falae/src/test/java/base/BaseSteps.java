@@ -12,7 +12,7 @@ import static core.DriverFactory.*;
 
 public class BaseSteps {
     public static Scenario scenario;
-    public static boolean FECHAR_BROWSER = false;
+    public static boolean FECHAR_BROWSER = true;
 
     public static void OpenBrowser() {
         if (getDriver() != null)return;

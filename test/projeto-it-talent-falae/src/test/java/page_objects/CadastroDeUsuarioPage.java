@@ -2,9 +2,7 @@ package page_objects;
 
 import base.BasePage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CadastroDeUsuarioPage extends BasePage {
@@ -22,7 +20,8 @@ public class CadastroDeUsuarioPage extends BasePage {
 
     private final By idiomaSelecionado = By.id("user_locale");
 
-    public void clicarCadastrar(String link){
+    public void clicarLink(String link){
+        waitElementVisible(By.linkText(link), 2);
         clicar(By.linkText(link));
     }
 

@@ -22,7 +22,7 @@ public class CadastroDeUsuarioSteps  extends BaseSteps {
 
     @Dado("o usuario clicar no link {string}")
     public void o_usuario_clicar_no_link(String string) {
-        page.clicarCadastrar(string);
+        page.clicarLink(string);
     }
 
     @Quando("o usuario preencher o campo nome")
