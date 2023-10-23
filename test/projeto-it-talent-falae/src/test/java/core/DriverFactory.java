@@ -20,7 +20,7 @@ public class DriverFactory {
     }
 
     public static WebDriver getDriver() {
-        if (driver == null)  return getBrownser(Browser.CHROME_HEADLESS);
+        if (driver == null)  return getBrownser(Browser.CHROME);
         return driver;
     }
     public static WebDriver getBrownser(Browser nav){
