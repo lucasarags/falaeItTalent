@@ -18,7 +18,7 @@
       E o usuario clicar no link "Esqueceu sua senha?"
       Quando o usuario preencher o campo email do esqueceu a senha com um email invalido
       E o usuario clicar no botao "Enviar"
-      Entao o sistema exibe uma mensagem de erro: "Email e inválidos ou em branco."
+      Entao o sistema exibe uma mensagem de erro do email: "email inválido"
 
     @cenario_22
     Cenario: 22 - Esqueceu a senha com email em branco
@@ -27,4 +27,4 @@
       E o usuario clicar no link "Esqueceu sua senha?"
       Quando o usuario não preencher o campo email do esqueceu a senha
       E o usuario clicar no botao "Enviar"
-      Entao o sistema exibe uma mensagem de erro: "Email e inválidos ou em branco."
+      Entao o sistema exibe uma mensagem de erro do email: "email inválido"

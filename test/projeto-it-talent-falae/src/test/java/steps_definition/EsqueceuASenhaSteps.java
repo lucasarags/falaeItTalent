@@ -1,7 +1,9 @@
 package steps_definition;
 
 import base.BaseSteps;
+import io.cucumber.java.pt.Entao;
 import io.cucumber.java.pt.Quando;
+import org.junit.Assert;
 import page_objects.EsqueceuASenhaPage;
 
 public class EsqueceuASenhaSteps extends BaseSteps {
@@ -21,5 +23,13 @@ public class EsqueceuASenhaSteps extends BaseSteps {
     public void o_usuario_não_preencher_o_campo_email_do_esqueceu_a_senha() {
         page.escreverEmailReset("");
     }
+
+
+    @Entao("o sistema exibe uma mensagem de erro do email: {string}")
+    public void o_sistema_exibe_uma_mensagem_de_erro_do_email(String email) {
+        Assert.assertEquals(email, page.msgDeErroEmail());
+        screenshot();
+    }
+
 
 }

@@ -4,6 +4,7 @@ import core.DriverFactory;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -21,6 +22,12 @@ public class BasePage extends DriverFactory {
     public void waitElementVisible(By element, int seconds) {
         wait = new WebDriverWait(getDriver(), seconds);
         wait.until(ExpectedConditions.visibilityOfElementLocated(element));
+    }
+
+    public void passarMouse(By locator){
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(locator))
+                .perform();
     }
 
     public void escreve(By locator, String texto){
