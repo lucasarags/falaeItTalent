@@ -28,7 +28,7 @@ import java.util.List;
         "pretty",
         "html:target/cucumber/index.html",
         "json:target/cucumber/index.json"
-    },tags = "@cenario_52"
+    },tags = "@cenario_54"
     /**
      * Executar testes no termial
      *
