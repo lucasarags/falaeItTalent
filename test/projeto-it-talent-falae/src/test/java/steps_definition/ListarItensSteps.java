@@ -8,11 +8,11 @@ import page_objects.ListarItensPage;
 
 public class ListarItensSteps extends BaseSteps {
     private ListarItensPage page = new ListarItensPage();
-    private String teste = "teste";
+    private String teste;
 
     @Dado("o usuario preencher o campo filtro")
     public void o_usuario_preencher_o_campo_filtro() {
-       page.escreverTextoFiltro(teste);
+      teste = page.escreverTextoFiltro("teste");
        screenshot();
     }
 
@@ -29,7 +29,13 @@ public class ListarItensSteps extends BaseSteps {
 
     @Dado("o usuario preencher o campo filtro com caracteres especiais")
     public void o_usuario_preencher_o_campo_filtro_com_caracteres_especiais() {
-       page.escreverTextoFiltro("%");
+      teste = page.escreverTextoFiltro("%");
        screenshot();
+    }
+
+    @Dado("o usuario preencher o campo filtro com nome incompleto")
+    public void o_usuario_preencher_o_campo_filtro_com_nome_incompleto() {
+        teste = page.escreverTextoFiltro("tes");
+        screenshot();
     }
 }

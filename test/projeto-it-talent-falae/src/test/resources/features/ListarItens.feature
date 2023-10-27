@@ -19,3 +19,12 @@
       E o usuario preencher o campo filtro com caracteres especiais
       E o usuario clicar no botao  "Filtrar"
       Entao o sistema vai buscar o nome dos itens que tenha o texto escrito
+
+    @cenario_55
+    Cenario: 55 - Listar itens com nome incompleto
+      Dado que o usuario esteja na pagina sobre do site FALAE
+      E o usuario está logado no sistema
+      E o usuario clicar no link "Meus Itens"
+      E o usuario preencher o campo filtro com nome incompleto
+      E o usuario clicar no botao  "Filtrar"
+      Entao o sistema vai buscar o nome dos itens que tenha o texto escrito

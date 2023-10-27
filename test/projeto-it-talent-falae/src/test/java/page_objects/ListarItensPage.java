@@ -10,13 +10,10 @@ public class ListarItensPage extends BasePage {
 
     private final By botaoFiltar = By.xpath("//button[@class='button-box']");
 
-    public void escreverTextoFiltro(String texto){
+    public String escreverTextoFiltro(String texto){
         waitElementVisible(textoFiltro, 2);
         escreve(textoFiltro, texto);
-    }
-
-    public boolean retornoFiltro(){
-        return obterValorExistente(obterValorPorTexto(botaoFiltro));
+        return texto;
     }
 
     public void clicarBotaoFiltar(){
