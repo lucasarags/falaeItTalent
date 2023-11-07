@@ -9,11 +9,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.sun.jna.ELFAnalyser.ArmAeabiAttributesTag.File;
 import static core.DriverFactory.getDriver;
 
 public class BasePage extends DriverFactory {
@@ -178,5 +180,11 @@ public class BasePage extends DriverFactory {
     public void clicarBotaoPorTexto(String texto){
 
         clicar(By.xpath("//button[.='"+texto+"']"));
+    }
+
+    public boolean retornarArquivo(String nomeDoArquivo, String tipo){
+        String arquivo = "C:\\Users\\Downloads\\"+nomeDoArquivo+"."+tipo;
+        return new File(arquivo).exists();
+
     }
 }
