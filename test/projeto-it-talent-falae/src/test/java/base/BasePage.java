@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.sun.jna.ELFAnalyser.ArmAeabiAttributesTag.File;
-import static core.DriverFactory.getDriver;
-
 public class BasePage extends DriverFactory {
 
     protected WebDriverWait wait;

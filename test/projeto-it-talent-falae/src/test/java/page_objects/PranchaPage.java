@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 public class PranchaPage extends BasePage {
 
     private final By segundaPrancha = By.cssSelector("div.list > ul > li:nth-child(2) > a");
-    private final By botaoApagar =  By.linkText("Apagar");
+
 
 
     public void selecionarPrancha(){
@@ -17,8 +17,8 @@ public class PranchaPage extends BasePage {
         clicarAlerta();
     }
 
-    public void selecionarApagarPrancha(){
-        waitElementVisible(botaoApagar,2);
-        clicar(botaoApagar);
+    public void selecionarApagarPrancha(String texto){
+        waitElementVisible(By.linkText(texto),2);
+        clicar(By.linkText(texto));
     }
 }

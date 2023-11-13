@@ -15,11 +15,12 @@ public class PranchaSteps extends BaseSteps {
     @Quando("o ususario confirmar a exclusao")
     public void o_ususario_confirmar_a_exclusao() {
      page.confirmarApagar();
+     screenshot();
     }
 
     @Quando("o usuario clicar no botao {string} da prancha")
-    public void o_usuario_clicar_no_botao_da_prancha(String string) {
-        page.selecionarApagarPrancha();
+    public void o_usuario_clicar_no_botao_da_prancha(String botao) {
+        page.selecionarApagarPrancha(botao);
     }
 
 }
