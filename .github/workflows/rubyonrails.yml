@@ -4,8 +4,14 @@
 #
 # This workflow will install a prebuilt Ruby version, install dependencies, and
 # run tests and linters.
-name: CI/CD
-on: [push, pull_request]
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "*"
 
 jobs:
   build:
@@ -15,8 +21,8 @@ jobs:
       db:
         image: guilherme2041/falae-app
         env:
-          MYSQL_ROOT_PASSWORD: postgres
-          MYSQL_DATABASE: test
+          MYSQL_ROOT_PASSWORD: falae@pass 
+          MYSQL_DATABASE: falae
         ports: ["3306:3306"]
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
@@ -36,8 +42,8 @@ jobs:
 
       - name: Build and run tests
         env:
-          DATABASE_URL: mysql2://root:postgres@localhost:3306/test
-          RAILS_ENV: test
+          DATABASE_URL: mysql2://root:falae%40pass@db:3306/falae
+          RAILS_ENV: development 
         run: |
           sudo apt-get -yqq install libmysqlclient-dev
           gem install bundler
