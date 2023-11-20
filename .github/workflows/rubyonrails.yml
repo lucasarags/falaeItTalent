@@ -10,6 +10,12 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      DB_USER: root
+      DB_PASSWORD: falae@pass
+      DB_NAME: falae
+      DB_PORT: 3306
+      DB_HOST: db
 
     services:
       db:
