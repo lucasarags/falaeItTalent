@@ -35,7 +35,8 @@ jobs:
           npm install -g yarn
       - name: Build and run tests
         env:
-          DATABASE_URL: mysql2://root:falae@pass@db:3306:falae  # ${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}
+          DATABASE_URL: mysql2://root:falae@pass@db:3306/falae?encoding=utf8&pool=5&timeout=5000&reconnect=true
+  # ${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}
           RAILS_ENV: development 
         run: |
           sudo apt-get -yqq install libmysqlclient-dev
