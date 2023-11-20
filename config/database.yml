@@ -15,11 +15,11 @@ development:
   encoding: utf8
   reconnect: false
   pool: 5
-  username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
-  database: <%= ENV['DB_NAME'] %>
-  port: <%= ENV['DB_PORT'] %>
-  host: <%= ENV['DB_HOST'] %>
+  username: root
+  password: falae@pass 
+  database: falae 
+  port: 3306 
+  host: db 
 
   # database: db/development.sqlite3
 
@@ -36,8 +36,8 @@ production:
   encoding: utf8
   reconnect: false
   pool: 5
-  username: <%= ENV['DB_USERNAME'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
-  database: <%= ENV['DB_NAME'] %>
-  port: <%= ENV['DB_PORT'] %>
-  host: <%= ENV['DB_HOST'] %>
+  username: root
+  password: falae@pass 
+  database: falae 
+  port: 3306 
+  host: db 
