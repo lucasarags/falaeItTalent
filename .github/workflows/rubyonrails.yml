@@ -15,8 +15,8 @@ jobs:
       db:
         image: guilherme2041/falae-app
         env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.DB_NAME }}
+          MYSQL_ROOT_PASSWORD: falae@pass # ${{ secrets.DB_PASSWORD }}
+          MYSQL_DATABASE: root # ${{ secrets.DB_NAME }}
         ports: ["3306:3306"]
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
@@ -35,7 +35,7 @@ jobs:
           npm install -g yarn
       - name: Build and run tests
         env:
-          DATABASE_URL: mysql2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}
+          DATABASE_URL: mysql2://root:falae@pass:db:3306:falae  # ${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}
           RAILS_ENV: development 
         run: |
           sudo apt-get -yqq install libmysqlclient-dev
