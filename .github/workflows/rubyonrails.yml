@@ -11,21 +11,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      db:
+        image: guilherme2041/falae-app
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.DB_NAME }}
+        ports: ["3306:3306"]
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Setup Docker Compose
-        run: |
-          sudo apt-get install -yqq docker-compose
-          sudo docker-compose up -d
-          # Wait for containers to be ready (you may need to adjust the sleep time)
-          sleep 10
-
-      - name: Restore Database
-        run: |
-          # Modify the following command based on your actual restore logic
-          ./restoreDB.sh dump.sql
 
       - name: Setup Ruby
         uses: actions/setup-ruby@v1
@@ -36,14 +33,14 @@ jobs:
         run: |
           sudo apt-get install -yqq nodejs
           npm install -g yarn
-
       - name: Build and run tests
         env:
-          DATABASE_URL: mysql2://root:falae%40pass@db:3306/falae
+          DATABASE_URL: mysql2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}
           RAILS_ENV: development 
         run: |
           sudo apt-get -yqq install libmysqlclient-dev
           gem install bundler
           bundle install --jobs 4 --retry 3
+          bundle exec rake db:create
           bundle exec rake db:migrate
           bundle exec rspec .
