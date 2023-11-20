@@ -1,0 +1,44 @@
+name: CD
+
+on:
+  push:
+    branches: [ "ci-cd" ]
+
+  workflow_dispatch:
+
+jobs:
+  CD:
+    runs-on: ubuntu-latest
+
+    steps:
+    
+      - name: Configure SSH AWS
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/aws-cloud.key
+          chmod 600 ~/.ssh/aws-cloud.key
+          cat >>~/.ssh/config <<END
+          Host aws-cloud
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/aws-cloud.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.AWS_SSH_USER }}
+          SSH_KEY: ${{ secrets.AWS_SSH_KEY }}
+          SSH_HOST: ${{ secrets.AWS_SSH_HOST }}
+    
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Deploy the application
+        run: |
+          ssh aws-cloud "cd falae"
+          ssh aws-cloud "touch .env"
+          ssh aws-cloud "cat /etc/.env > /home/github/.env"
+          ssh aws-cloud "docker compose down"
+          ssh aws-cloud "docker compose up -d"
+          ssh aws-cloud "./restoreDB.sh dump.sql"
+          
+          
