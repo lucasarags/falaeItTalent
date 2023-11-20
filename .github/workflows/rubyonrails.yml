@@ -33,11 +33,16 @@ jobs:
         run: |
           sudo apt-get install -yqq nodejs
           npm install -g yarn
-      - name: Build and run tests
+
+      - name: Set up environment variables
+        run: |
+          # Encode the password and store it in an environment variable
+          export ENCODED_PASSWORD=$(echo -n 'falae@pass' | jq -s -R -r @uri)
+        shell: bash
+      - name: Build and run test
         env:
-          DATABASE_URL: mysql2://root:$(echo -n 'falae@pass' | jq -s -R -r @uri)@db:3306/falae
-  # ${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}
-          RAILS_ENV: development 
+          DATABASE_URL: "mysql2://root:${{ env.ENCODED_PASSWORD }}@db:3306/falae"
+          RAILS_ENV: test 
         run: |
           sudo apt-get -yqq install libmysqlclient-dev
           gem install bundler
