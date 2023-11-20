@@ -6,7 +6,7 @@ if [ "$DB_TYPE" = "mysql" ]
 then
     echo "Waiting for MySQL..."
 
-    while ! nc -z $DB_HOST $DB_PORT; do
+    while ! nc -z db 3306 ; do
       sleep 0.1
     done
 
