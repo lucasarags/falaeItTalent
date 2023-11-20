@@ -13,7 +13,7 @@ jobs:
 
     services:
       db:
-        image: mysql:8.0.34
+        image: guilherme2041/falae-app
         env:
           MYSQL_ROOT_PASSWORD: postgres
           MYSQL_DATABASE: test
@@ -27,7 +27,7 @@ jobs:
       - name: Setup Ruby
         uses: actions/setup-ruby@v1
         with:
-          ruby-version: 2.6.x
+          ruby-version: 3.0.6
 
       - name: Install Yarn
         run: |
