@@ -4,32 +4,28 @@
 #
 # This workflow will install a prebuilt Ruby version, install dependencies, and
 # run tests and linters.
-name: CI
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - "*"
+name: CI/CD
+on: [push, pull_request]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
-
-    services:
-      db:
-        image: guilherme2041/falae-app
-        env:
-          MYSQL_ROOT_PASSWORD: falae@pass 
-          MYSQL_DATABASE: falae
-        ports: ["3306:3306"]
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Setup Docker Compose
+        run: |
+          sudo apt-get install -yqq docker-compose
+          sudo docker-compose up -d
+          # Wait for containers to be ready (you may need to adjust the sleep time)
+          sleep 10
+
+      - name: Restore Database
+        run: |
+          # Modify the following command based on your actual restore logic
+          ./restoreDB.sh dump.sql
 
       - name: Setup Ruby
         uses: actions/setup-ruby@v1
@@ -37,27 +33,17 @@ jobs:
           ruby-version: 3.0.6
 
       - name: Install Yarn
-        uses: yarnpkg/setup-yarn@v2
-        with:
-          yarn-version: latest
-
-      - name: Install Dependencies
         run: |
           sudo apt-get install -yqq nodejs
-          gem install bundler
-          bundle config path vendor/bundle
-          bundle install --jobs 4 --retry 3
-          yarn install
+          npm install -g yarn
 
       - name: Build and run tests
         env:
           DATABASE_URL: mysql2://root:falae%40pass@db:3306/falae
           RAILS_ENV: development 
         run: |
-          if [ "${{ github.event_name }}" != "pull_request" ]; then
-            sudo apt-get -yqq install libmysqlclient-dev
-            bundle exec rake db:create
-            bundle exec rake db:migrate
-          fi
-
+          sudo apt-get -yqq install libmysqlclient-dev
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          bundle exec rake db:migrate
           bundle exec rspec .
