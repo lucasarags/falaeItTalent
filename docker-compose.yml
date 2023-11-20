@@ -26,8 +26,8 @@ services:
     image: mysql:8.0.34
     container_name: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: falae@pass 
+      MYSQL_DATABASE: db
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
