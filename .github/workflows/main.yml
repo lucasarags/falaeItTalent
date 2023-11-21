@@ -29,6 +29,18 @@ jobs:
         with:
           ruby-version: '3.0.6'
 
+      - name: Create .env file
+        run: |
+          echo "DB_USER=${{ secrets.DB_USER }}" > .env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+          echo "RAILS_ENV=${{ secrets.RAILS_ENV }}" >> .env
+          echo "SENDGRID_APIKEY=${{ secrets.SENDGRID_APIKEY }}" >> .env
+          echo "FALAE_IMAGES_PATH=${{ secrets.FALAE_IMAGES_PATH }}" >> .env
+          echo "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}" >> .env
+
       - name: Setup Docker Compose
         run: docker-compose up -d
 
@@ -53,7 +65,7 @@ jobs:
       - name: Run tests
         env:
           DATABASE_URL: "mysql2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}"
-          RAILS_ENV: development
+          RAILS_ENV: ${{ secrets.RAILS_ENV }}
         run: |
           bundle exec rspec
           # TEST01
