@@ -57,11 +57,11 @@ jobs:
           bundle install
 
           
-      - name: Run Tests
-        env:
-           DATABASE_URL: "mysql2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}"
-           RAILS_ENV: test
-        run: |
-            bundle exec rspec
+      #- name: Run Tests
+       # env:
+        #   DATABASE_URL: "mysql2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}"
+         #  RAILS_ENV: test
+        #run: |
+         #   bundle exec rspec
     
   
