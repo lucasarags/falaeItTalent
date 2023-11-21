@@ -41,10 +41,10 @@ jobs:
       - name: Setup database
         env:
           DB_DATABASE: ${{ secrets.DB_NAME }}
-          DB_HOST: localhost
-          DB_USER: root
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          RAILS_ENV: test
+          RAILS_ENV: ${{ secrets.RAILS_ENV }}
           WITH_COVERAGE: true
           DISABLE_SPRING: 1
         run: |
@@ -54,10 +54,10 @@ jobs:
       - name: Build and test with rspec
         env:
           DB_DATABASE: ${{ secrets.DB_NAME }}
-          DB_HOST: localhost
-          DB_USER: root
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          RAILS_ENV: test
+          RAILS_ENV: ${{ secrets.RAILS_ENV }}
         run: |
           bundle exec rspec spec
 
