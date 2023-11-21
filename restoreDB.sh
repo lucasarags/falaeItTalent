@@ -10,5 +10,7 @@ fi
 
 echo "Importing DB..."
 # docker exec -i mysql sh -c 'exec mysql -u$DB_USER -p"$DB_PASSWORD"' < $1
-docker exec -i mysql sh -c 'exec mysql -u$DB_USER -p"$DB_PASSWORD" -h$DB_HOST -P$DB_PORT $DB_NAME' < $1
+# docker exec -i mysql sh -c 'exec mysql -u$DB_USER -p"$DB_PASSWORD" -h$DB_HOST -P$DB_PORT $DB_NAME' < $1
+docker exec -i mysql sh -c 'exec mysql -u"$DB_USER" -p"$DB_PASSWORD" -h"$DB_HOST" -P"$DB_PORT" "$DB_NAME"' < $1
+
 
