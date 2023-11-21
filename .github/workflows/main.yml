@@ -31,18 +31,20 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
-          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
-          echo "RAILS_ENV=${{ secrets.RAILS_ENV }}" >> .env
-          echo "SENDGRID_APIKEY=${{ secrets.SENDGRID_APIKEY }}" >> .env
-          echo "FALAE_IMAGES_PATH=${{ secrets.FALAE_IMAGES_PATH }}" >> .env
-          echo "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}" >> .env
-
+          echo "DB_USER=${{ secrets.DB_USER }}" > .env.template
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env.template
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env.template
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env.template
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env.template
+          echo "RAILS_ENV=${{ secrets.RAILS_ENV }}" >> .env.template
+          echo "SENDGRID_APIKEY=${{ secrets.SENDGRID_APIKEY }}" >> .env.template
+          echo "FALAE_IMAGES_PATH=${{ secrets.FALAE_IMAGES_PATH }}" >> .env.template
+          echo "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}" >> .env.template
+          envsubst < .env.template > .env
+          
       - name: Display .env content
         run: cat .env
+        
       - name: Setup Docker Compose
         run: docker-compose --env-file .env up -d
 
