@@ -36,7 +36,7 @@ jobs:
         run: |
           ssh aws-cloud "cd falae"
           ssh aws-cloud "touch .env"
-          ssh aws-cloud "cat /etc/.env > /home/github/.env"
+          ssh aws-cloud "cat /etc/.env > /home/github/falae/.env"
           ssh aws-cloud "docker compose down"
           ssh aws-cloud "docker compose up -d"
           ssh aws-cloud "./restoreDB.sh dump.sql"
