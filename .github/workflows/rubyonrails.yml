@@ -4,19 +4,13 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      DB_USER: root
-      DB_PASSWORD: falae@pass
-      DB_NAME: falae
-      DB_PORT: 3306
-      DB_HOST: db
 
     services:
       db:
         image: guilherme2041/falae-app
         env:
-          MYSQL_ROOT_PASSWORD: falae@pass
-          MYSQL_DATABASE: falae
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
         ports: ["3306:3306"]
 
     steps:
@@ -36,12 +30,36 @@ jobs:
       - name: Set up environment variables
         run: |
           # Encode the password and store it in an environment variable
-          export ENCODED_PASSWORD=$(echo -n 'falae@pass' | jq -s -R -r @uri)
+          export ENCODED_PASSWORD=$(echo -n "${{ secrets.DB_PASSWORD }}" | jq -s -R -r @uri)
         shell: bash
+
+      - name: Install packages
+        run: |
+          yarn install --pure-lockfile
+
+      - name: Run linters
+        run: |
+          bin/rubocop --parallel
+          bin/stylelint
+          bin/prettier
+          bin/eslint
+
+      - name: Run security checks
+        run: |
+          bin/bundler-audit --update
+          bin/brakeman -q -w2
+
+      - name: Setup test database
+        env:
+          RAILS_ENV: test
+          PGHOST: localhost
+          PGUSER: myapp
+        run: |
+          bin/rails db:setup
 
       - name: Build and run tests
         env:
-          DATABASE_URL: "mysql2://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME"
+          DATABASE_URL: "mysql2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}"
           RAILS_ENV: test 
         run: |
           sudo apt-get -yqq install libmysqlclient-dev
