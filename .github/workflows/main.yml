@@ -51,11 +51,11 @@ jobs:
           chmod +x restoreDB.sh
           ./restoreDB.sh dump.sql
           
-      - name: Install dependencies and run tests
+      - name: Run Tests
         env:
-          DATABASE_URL: "mysql2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}_test"
-          RAILS_ENV: test
+           DATABASE_URL: "mysql2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}"
+           RAILS_ENV: ${{ secrets.RAILS_ENV }}
         run: |
-          bundle install --jobs 4 --retry 3
-          bundle exec rake db:create db:schema:load
-          bundle exec rspec
+            bundle exec rspec
+    
+  
