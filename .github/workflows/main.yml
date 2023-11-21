@@ -50,6 +50,12 @@ jobs:
           ls  # List the contents of the current directory for debugging purposes
           chmod +x restoreDB.sh
           ./restoreDB.sh dump.sql
+
+      - name: Install Gems
+        run: |
+          gem install bundler
+          bundle install
+
           
       - name: Run Tests
         env:
