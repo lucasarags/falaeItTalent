@@ -30,7 +30,7 @@ jobs:
           ruby-version: '3.0.6'
 
       - name: Navigate to project directory
-        run: cd falae
+        run: cd /falae
 
       - name: Create .env file
         run: |
