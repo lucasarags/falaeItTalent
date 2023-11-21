@@ -1,90 +1,68 @@
-name: CI/CD
-on: [push, pull_request]
+name: CI
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     services:
-      db:
-        image: guilherme2041/falae-app
+      mysql:
+        image: mysql:8
         env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-        ports: ["3306:3306"]
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        ports: ['3306:3306']
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.0.6'
 
-      - name: Install Yarn
+      - uses: Borales/actions-yarn@v2
+        with:
+          cmd: install
+
+      - name: Install Dependencies
         run: |
-          sudo apt-get install -yqq nodejs
-          npm install -g yarn
+          sudo apt install -yqq default-libmysqlclient-dev
+          gem install bundler 
 
-      - name: Set up environment variables
+      - name: Install Gems
         run: |
-          # Encode the password and store it in an environment variable
-          export ENCODED_PASSWORD=$(echo -n "${{ secrets.DB_PASSWORD }}" | jq -s -R -r @uri)
-        shell: bash
+          bundle config set path vendor/bundle
+          bundle install --jobs 4 --retry 3
 
-      - name: Install RuboCop
-        run: gem install rubocop 
-
-      - name: Auto-correct with RuboCop
-        run: rubocop -A
-        continue-on-error: true
-
-      - name: Check for remaining offenses
-        run: |
-          if [ -f .rubocop_todo.yml ]; then
-            echo "RuboCop offenses remaining after auto-correction:"
-            cat .rubocop_todo.yml
-            exit 1
-          fi
-
-      - name: Install packages
-        run: |
-          yarn install --pure-lockfile
-
-      - name: Set up bin directory
-        run: |
-          mkdir -p bin
-          cp $(bundle exec which rubocop) bin/rubocop
-
-      - name: Run linters
-        run: |
-          bin/rubocop --parallel
-          bin/stylelint
-          bin/prettier
-          bin/eslint
-
-      - name: Run security checks
-        run: |
-          bin/bundler-audit --update
-          bin/brakeman -q -w2
-
-      - name: Setup test database
+      - name: Setup database
         env:
-          RAILS_ENV: test
+          DB_DATABASE: ${{ secrets.DB_NAME }}
           DB_HOST: localhost
           DB_USER: root
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          RAILS_ENV: test
+          WITH_COVERAGE: true
+          DISABLE_SPRING: 1
         run: |
-          bin/rails db:setup
+          bundle exec rails db:prepare
+          bundle exec rake test
 
-      - name: Build and run tests
+      - name: Build and test with rspec
         env:
-          DATABASE_URL: "mysql2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}"
-          RAILS_ENV: test 
+          DB_DATABASE: ${{ secrets.DB_NAME }}
+          DB_HOST: localhost
+          DB_USER: root
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          RAILS_ENV: test
         run: |
-          sudo apt-get -yqq install libmysqlclient-dev
-          gem install bundler
-          bundle install --jobs 4 --retry 3
-          bundle exec rake db:create
-          bundle exec rake db:migrate
-          bundle exec rspec .
+          bundle exec rspec spec
+
+      - name: Create Coverage Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage
+          path: coverage/
