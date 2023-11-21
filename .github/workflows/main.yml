@@ -41,8 +41,10 @@ jobs:
           echo "FALAE_IMAGES_PATH=${{ secrets.FALAE_IMAGES_PATH }}" >> .env
           echo "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}" >> .env
 
+      - name: Display .env content
+        run: cat .env
       - name: Setup Docker Compose
-        run: docker-compose up -d
+        run: docker-compose --env-file .env up -d
 
       - name: Install MySQL Client
         run: sudo apt-get -yqq install mysql-client
