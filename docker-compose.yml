@@ -8,16 +8,16 @@ services:
     restart: unless-stopped
     networks:
       - falae-net
-    env_file:
-      DB_USER: ${{ secrets.DB_USER }}
-      DB_NAME: ${{ secrets.DB_NAME }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      DB_HOST: ${{ secrets.DB_NAME }}
-      DB_PORT: ${{ secrets.DB_PORT }}
-      RAILS_ENV: ${{ secrets.RAILS_ENV }}
-      SENDGRID_APIKEY: ${{ secrets.SENDGRID_APIKEY }}
-      FALAE_IMAGES_PATH: ${{ secrets.FALAE_IMAGES_PATH}}
-      SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+    environment:
+      - DB_USER=${{ secrets.DB_USER }}
+      - DB_NAME=${{ secrets.DB_NAME }}
+      - DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+      - DB_HOST=db
+      - DB_PORT=3306
+      - RAILS_ENV=development
+      - SENDGRID_APIKEY=${{ secrets.SENDGRID_APIKEY }}
+      - FALAE_IMAGES_PATH=/images
+      - SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}
 
   proxy:
     depends_on:
