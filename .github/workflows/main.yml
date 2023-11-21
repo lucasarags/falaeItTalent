@@ -50,7 +50,12 @@ jobs:
           ls  # List the contents of the current directory for debugging purposes
           chmod +x restoreDB.sh
           ./restoreDB.sh dump.sql
-  
+          
+      - name: Install dependencies
+        run: |
+          sudo apt-get -yqq install libmysqlclient-dev
+          gem install bundler
+          bundle install --jobs 4 --retry 3
 
            
       - name: Run tests
