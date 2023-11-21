@@ -36,6 +36,9 @@ jobs:
       - name: Install RuboCop
         run: gem install rubocop 
 
+      - name: Auto-correct with RuboCop
+        run: bundle exec rubocop --auto-correct
+
       - name: Install packages
         run: |
           yarn install --pure-lockfile
