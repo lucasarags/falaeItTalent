@@ -51,17 +51,17 @@ jobs:
           chmod +x restoreDB.sh
           ./restoreDB.sh dump.sql
           
+      - name: Install Bundler
+        run: gem install bundler
+
       - name: Install dependencies
-        run: |
-          sudo apt-get -yqq install libmysqlclient-dev
-          gem install bundler
-          bundle install --jobs 4 --retry 3
+        run: bundle install --jobs 4 --retry 3
 
            
       - name: Run tests
         env:
           DATABASE_URL: "mysql2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}"
-          RAILS_ENV: ${{ secrets.RAILS_ENV }}
+          RAILS_ENV: test
         run: |
           bundle exec rspec
           # TEST01
