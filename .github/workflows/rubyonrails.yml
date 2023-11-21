@@ -34,10 +34,10 @@ jobs:
         shell: bash
 
       - name: Install RuboCop
-        run: gem install rubocop 
+        run: gem install rubocop
 
       - name: Auto-correct with RuboCop
-        run: bundle exec rubocop --auto-correct
+        run: rubocop --auto-correct
 
       - name: Install packages
         run: |
