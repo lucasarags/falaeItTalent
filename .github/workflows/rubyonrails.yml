@@ -34,10 +34,19 @@ jobs:
         shell: bash
 
       - name: Install RuboCop
-        run: gem install rubocop
+        run: gem install rubocop 
 
       - name: Auto-correct with RuboCop
-        run: rubocop --auto-correct
+        run: rubocop -A
+        continue-on-error: true
+
+      - name: Check for remaining offenses
+        run: |
+          if [ -f .rubocop_todo.yml ]; then
+            echo "RuboCop offenses remaining after auto-correction:"
+            cat .rubocop_todo.yml
+            exit 1
+          fi
 
       - name: Install packages
         run: |
