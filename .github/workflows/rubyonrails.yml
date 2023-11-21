@@ -52,8 +52,8 @@ jobs:
       - name: Setup test database
         env:
           RAILS_ENV: test
-          PGHOST: localhost
-          PGUSER: myapp
+          DB_HOST: localhost
+          DB_USER: root
         run: |
           bin/rails db:setup
 
