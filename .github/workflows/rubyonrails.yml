@@ -40,6 +40,11 @@ jobs:
         run: |
           yarn install --pure-lockfile
 
+      - name: Set up bin directory
+        run: |
+          mkdir -p bin
+          cp $(bundle exec which rubocop) bin/rubocop
+
       - name: Run linters
         run: |
           bin/rubocop --parallel
