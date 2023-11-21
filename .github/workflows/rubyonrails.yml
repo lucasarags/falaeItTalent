@@ -33,6 +33,9 @@ jobs:
           export ENCODED_PASSWORD=$(echo -n "${{ secrets.DB_PASSWORD }}" | jq -s -R -r @uri)
         shell: bash
 
+      - name: Install RuboCop
+        run: gem install rubocop 
+
       - name: Install packages
         run: |
           yarn install --pure-lockfile
