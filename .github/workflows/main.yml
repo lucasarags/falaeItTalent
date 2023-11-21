@@ -43,7 +43,7 @@ jobs:
       - name: Change to directory and run script
         run: |
           ls  # List the contents of the current directory for debugging purposes
-          chmod +x restoreDB
+          chmod +x restoreDB.sh
           ./restoreDB.sh dump.sql
   
 
