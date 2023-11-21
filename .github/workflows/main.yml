@@ -40,11 +40,14 @@ jobs:
       - name: Setup Docker Compose
         run: docker-compose --env-file .env up -d
 
-      - name: Restore Database
+      - name: Change to directory and run script
         run: |
-           cd falae
-           chmod +x restoredb
-           ./restoredb dump.sql
+          ls  # List the contents of the current directory for debugging purposes
+          cd falae
+          chmod +x restore***
+          ./restore*** dump.sql
+  
+
            
       - name: Run tests
         env:
