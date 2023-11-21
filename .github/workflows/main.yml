@@ -40,6 +40,11 @@ jobs:
       - name: Setup Docker Compose
         run: docker-compose --env-file .env up -d
 
+      - name: Check Docker Containers
+        run: |
+          sleep 10
+          docker-compose ps
+
       - name: Change to directory and run script
         run: |
           ls  # List the contents of the current directory for debugging purposes
