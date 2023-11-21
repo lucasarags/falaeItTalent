@@ -3,10 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -29,23 +29,30 @@ jobs:
         with:
           ruby-version: '3.0.6'
 
+      - name: Setup Docker Compose
+        run: docker-compose up -d
+
+      - name: Install MySQL Client
+        run: sudo apt-get -yqq install mysql-client
+
+      - name: Restore Database
+        env:
+          MYSQL_HOST: ${{ secrets.DB_HOST }}
+          MYSQL_USER: ${{ secrets.DB_USER }}
+          MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.DB_NAME }}
+        run: |
+          ./restoredb dump.sql
+
       - name: Install dependencies
         run: |
           sudo apt-get -yqq install libmysqlclient-dev
           gem install bundler
           bundle install --jobs 4 --retry 3
 
-      - name: Setup test database
-        env:
-          RAILS_ENV: ${{ secrets.RAILS_ENV }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_USER: ${{ secrets.DB_USER }}
-        run: |
-          bin/rails db:setup
-
       - name: Run tests
         env:
           DATABASE_URL: "mysql2://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}"
-          RAILS_ENV: ${{ secrets.RAILS_ENV }}
+          RAILS_ENV: development
         run: |
           bundle exec rspec
